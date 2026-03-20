@@ -1,4 +1,3 @@
-// import { set } from 'mongoose';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -12,17 +11,16 @@ function App() {
   }, []);
 
   const addTodo = async () => {
-    // INTENTIONAL ERROR: Incorrect body property name
     try {
       const response = await fetch('https://rebase-challenge-fwnu.onrender.com/api/todos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: newTodo }) // make sure backend expects 'title'
+      body: JSON.stringify({ title: newTodo }) 
       });
-      console.log(response,"sun");
+      // console.log(response,"sun");
       
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (response.status == 201) {
         let value = data?.newTodo;
         setTodos((prev)=>[...prev,value]);
