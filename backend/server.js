@@ -1,8 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require("cors");
+const bodyparser=require("body-parser");
 require('dotenv').config();
 
 const app = express();
+app.use(cors());
+app.use(bodyparser.urlencoded({extended:true}));
 app.use(express.json());
 
 // INTENTIONAL ERROR: Missing 'await' in the database connection or incorrect URI handling
@@ -29,13 +33,13 @@ app.get('/api/todos', async (req, res) => {
 // INTENTIONAL ERROR: Incorrect parameter name used in the query
 app.post('/api/todos', async (req, res) => {
   const todo = new Todo({
-    title: req.body.task, // ERROR: Frontend sends 'title', not 'task'
+    title: req.body.title, // ERROR: Frontend sends 'title', not 'task'
     completed: false
   });
 
   try {
     const newTodo = await todo.save();
-    res.status(201).json(newTodo);
+    res.status(201).json({newTodo});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

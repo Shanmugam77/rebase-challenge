@@ -1,3 +1,4 @@
+// import { set } from 'mongoose';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -12,16 +13,26 @@ function App() {
 
   const addTodo = async () => {
     // INTENTIONAL ERROR: Incorrect body property name
-    const response = await fetch('/api/todos', {
+    try {
+      const response = await fetch('http://localhost:5000/api/todos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: newTodo }) 
-    });
+      body: JSON.stringify({ title: newTodo }) // make sure backend expects 'title'
+      });
+      console.log(response,"sun");
+      
+      const data = await response.json();
+      console.log(data);
+      if (response.status == 201) {
+        let value = data?.newTodo;
+        setTodos((prev)=>[...prev,value]);
+        setNewTodo('');
+      }
+  
+    } catch (error) {
+      console.log(error);
+    }
     
-    // INTENTIONAL ERROR: Not updating state correctly or ignoring response
-    const data = await response.json();
-    setTodos([...todos, data]);
-    setNewTodo('');
   };
 
   return (
