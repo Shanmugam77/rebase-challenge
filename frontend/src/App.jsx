@@ -14,7 +14,7 @@ function App() {
   const addTodo = async () => {
     // INTENTIONAL ERROR: Incorrect body property name
     try {
-      const response = await fetch('http://localhost:5000/api/todos', {
+      const response = await fetch('https://rebase-challenge-fwnu.onrender.com/api/todos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: newTodo }) // make sure backend expects 'title'
